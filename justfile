@@ -10,5 +10,9 @@ format:
 clippy:
     @cargo clippy
 
+# Install the binary
+install:
+    @cargo install --path .
+
 # Run both 'format' and 'clippy' tasks
 fix: format clippy
