@@ -1,3 +1,5 @@
+_Note: HappyCommit works but is still early. Check any generated commit message thoroughly before saving it! And we're always open for a PR. Thanks for using and contributing!_
+
 # Welcome to HappyCommit! 😊 
 
 HappyCommit is a delightful tool that harnesses the power of OpenAI's GPT-3.5 Turbo language model to generate meaningful and descriptive Git commit messages for you. With HappyCommit, you can now focus on writing great code while we take care of crafting the perfect commit messages.
@@ -50,10 +52,11 @@ just install
 Instead of running the standard `git commit` command, use this friendly alternative:
 
 ```bash
+git add .
 git commit-gpt
 ```
 
-HappyCommit will analyze the changes in your code and generate a meaningful commit message that brings a smile to your face.
+HappyCommit will analyze your staged changes and generate a meaningful commit message that brings a smile to your face.
 
 ## Contributing
 
