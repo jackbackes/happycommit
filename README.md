@@ -22,7 +22,7 @@ https://user-images.githubusercontent.com/13596692/232682150-ce2dfdb7-5f3c-489c-
 
    ```bash
    brew tap jackbackes/git-commit-gpt
-   brew install jackbackes/homebrew-git-commit-gpt/git-commit-gpt.rb
+   brew install jackbackes/homebrew-git-commit-gpt/git-commit-gpt
    ```
 
 2. After the installation, let's add your OpenAI API key to the configuration file. Simply run the following command and enter your API key when prompted:
