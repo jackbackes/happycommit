@@ -1,4 +1,4 @@
-# Welcome to HappyCommit!
+# Welcome to HappyCommit! 😊 
 
 HappyCommit is a delightful tool that harnesses the power of OpenAI's GPT-3.5 Turbo language model to generate meaningful and descriptive Git commit messages for you. With HappyCommit, you can now focus on writing great code while we take care of crafting the perfect commit messages.
 
