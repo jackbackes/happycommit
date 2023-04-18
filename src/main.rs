@@ -230,16 +230,19 @@ fn load_api_key() -> Result<String, Box<dyn std::error::Error>> {
         let config_path = dirs::home_dir().unwrap().join(".happycommit/config.toml");
         let config = std::fs::read_to_string(config_path)?;
         let config: toml::Value = toml::from_str(&config)?;
-        let openai_api_key = config.get("openai_api_key");
+        let openai_api_key = config.get("OPENAI_API_KEY");
         if openai_api_key.is_none() {
             return Err("OPENAI_API_KEY not set in ~/.happycommit/config.toml".into());
         }
-        Ok(openai_api_key.unwrap().to_string())
+        let result = openai_api_key.unwrap().to_string();
+        // strip quotes
+        let result = result.replace("\"", "");
+        Ok(result)
     };
     let dotenv_checker = || -> Result<String, Box<dyn std::error::Error>> {
         dotenv::dotenv().ok();
         let openai_api_key =
-            dotenv::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set in .env file");
+            dotenv::var("OPENAI_API_KEY")?;
         Ok(openai_api_key)
     };
 
