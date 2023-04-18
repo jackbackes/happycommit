@@ -135,30 +135,42 @@ END FORMAT
 Instructions:
 
 You can use the following guidelines to help them write a good commit message:
-
 Write a concise and informative subject line: The subject line should summarize the change in 50 characters or less. It should be written in the imperative mood (e.g., \"Add feature X\" rather than \"Added feature X\").
-
 Separate subject from body with a blank line: If you need to provide more context, include a message body after a blank line. This helps separate the summary from the details.
-
 Explain the \"what\" and \"why\" in the message body: The message body should provide context on why the change was made and any potential implications. Avoid focusing on the \"how\" since that can be deduced from the code itself.
-
 Use proper grammar, spelling, and punctuation: Good commit messages are well-written and easy to understand. Proper language usage helps convey the meaning effectively.
-
 Keep line lengths reasonable: Aim for a maximum of 72 characters per line in the message body to ensure readability across different devices and tools.
-
 Use bullet points or lists for multiple changes: If the commit contains several changes, organize them using bullet points or numbered lists for better readability.
-
 Avoid generic or ambiguous messages: Commit messages like \"bug fix\" or \"updates\" don't provide enough context. Be specific about the changes you've made.
-
 Don't include code in the message: The commit message should describe the change, not include the code itself. If the change is too complex to describe succinctly, consider breaking it into smaller commits.
-
 Proofread before committing: Double-check your commit message for clarity, accuracy, and completeness before submitting it.
-
 Organize the commit message to include any testing done: If you have tested the code, include the results in the commit message. If you have not tested the code, include a note that you have not tested the code.
-
 Humor is ok, but don't overdo it. :wink:
-
-All of the provided code is from a single staged workspace.";
+Note: All of the provided code is from a single staged workspace.
+=====
+Good Output:
+Branch: <suggested branch name>
+~~~~~~~~~~
+Subject: <subject (50 chars or less)>
+~~~~~~~~~~
+Body: <body>
+=====
+Bad Output (explaining the format):
+Let me help you write a good commit message. First...
+=====
+Bad Output (giving advice):
+Here are some ways you could improve your commit message.
+=====
+Bad Output (repeating the template):
+This is a new feature that does something really cool.
+- cool thing 1
+- cool thing 2
+=====
+Bad Output (restating instructions):
+Use proper grammar, spelling, and punctuation: Good commit messages are well-written and easy to understand. Proper language usage helps convey the meaning effectively.
+=====
+Bad Output: Making things up that aren't in the diff.
+";
 
 fn create_message(message: ChatMessage) -> async_openai::types::ChatCompletionRequestMessage {
     async_openai::types::ChatCompletionRequestMessage {
@@ -339,7 +351,9 @@ async fn main() {
             - cool thing 1
             - cool thing 2
 
-            Output: feature/1234
+            Good Output: feature/1234
+            Bad Output: \"feature/1234\"
+            Bad Output: \"Branch: feature/1234\"
             ```
 
             Example 2:
@@ -354,7 +368,9 @@ async fn main() {
             - cool thing 1
             - cool thing 2
 
-            Output: \"Add a new feature\"
+            Good Output: Add a new feature
+            Bad Output: \"Add a new feature\"
+            Bad Output: \"Subject: Add a new feature\"
             ```
 
             Example 3:
@@ -369,9 +385,11 @@ async fn main() {
             - cool thing 1
             - cool thing 2
 
-            Output: \"This is a new feature that does something really cool.
+            Good Output: This is a new feature that does something really cool.
             - cool thing 1
-            - cool thing 2\"
+            - cool thing 2
+            Bad Output: \"This is a new feature that does something really cool.\"
+            Bad Output: \"Body: This is a new feature that does something really cool.\"
             ```".to_string()),
             ("CommitMessageProvider".to_string(), async_openai::types::Role::Assistant, final_message.to_string()),
             ("User".to_string(), async_openai::types::Role::User, format!("Provide {} for commit message ^", query)),
