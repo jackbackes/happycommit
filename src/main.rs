@@ -20,6 +20,7 @@ pub struct ChatCompletionRequestMessage {
     pub role: String,
 }
 
+#[allow(clippy::from_over_into)] // TODO: fix this
 impl Into<tiktoken_rs::ChatCompletionRequestMessage> for ChatCompletionRequestMessage {
     fn into(self) -> tiktoken_rs::ChatCompletionRequestMessage {
         tiktoken_rs::ChatCompletionRequestMessage {
@@ -40,6 +41,7 @@ impl From<tiktoken_rs::ChatCompletionRequestMessage> for ChatCompletionRequestMe
     }
 }
 
+#[allow(clippy::from_over_into)] // TODO: fix this
 impl Into<async_openai::types::ChatCompletionRequestMessage> for ChatCompletionRequestMessage {
     fn into(self) -> async_openai::types::ChatCompletionRequestMessage {
         async_openai::types::ChatCompletionRequestMessage {
@@ -70,6 +72,7 @@ pub struct ChatCompletionRequestMessages {
     pub messages: Vec<ChatCompletionRequestMessage>,
 }
 
+#[allow(clippy::from_over_into)] // TODO: fix this
 impl Into<Vec<tiktoken_rs::ChatCompletionRequestMessage>> for ChatCompletionRequestMessages {
     fn into(self) -> Vec<tiktoken_rs::ChatCompletionRequestMessage> {
         self.messages
@@ -221,10 +224,46 @@ async fn send_to_openai(
 
 type ChatMessage = (String, async_openai::types::Role, String);
 
+fn load_api_key() -> Result<String, Box<dyn std::error::Error>> {
+    // first check in ~/.happycommit/config.toml
+    let happycommitconfig_checker = || -> Result<String, Box<dyn std::error::Error>> {
+        let config_path = dirs::home_dir().unwrap().join(".happycommit/config.toml");
+        let config = std::fs::read_to_string(config_path)?;
+        let config: toml::Value = toml::from_str(&config)?;
+        let openai_api_key = config.get("openai_api_key");
+        if openai_api_key.is_none() {
+            return Err("OPENAI_API_KEY not set in ~/.happycommit/config.toml".into());
+        }
+        Ok(openai_api_key.unwrap().to_string())
+    };
+    let dotenv_checker = || -> Result<String, Box<dyn std::error::Error>> {
+        dotenv::dotenv().ok();
+        let openai_api_key =
+            dotenv::var("OPENAI_API_KEY").expect("OPENAI_API_KEY not set in .env file");
+        Ok(openai_api_key)
+    };
+
+    // first check happycommit config, then check dotenv - if in no places, throw
+    let result = happycommitconfig_checker();
+    if result.is_ok() {
+        return result;
+    }
+    let result = dotenv_checker();
+    if result.is_ok() {
+        return result;
+    }
+    // throw an error
+
+    Err("OPENAI_API_KEY must be set in .env file or ~/.happycommit/config.toml".into())
+}
+
 #[tokio::main(flavor = "current_thread")]
 async fn main() {
-    dotenv::dotenv().ok();
-    let openai_api_key = std::env::var("OPENAI_API_KEY").expect("OPENAI_API_KEY must be set");
+    let openai_api_key = load_api_key()
+        .map_err(|e| {
+            panic!("Error loading OpenAI API key: {}", e);
+        })
+        .unwrap();
 
     // by default, read in all the code changes since origin/master
     // TODO: allow user to specify a different origin branch or commit
@@ -360,7 +399,7 @@ async fn main() {
     let commit_message = format!("{}\n\n{}", subject, body);
 
     let mut commit_file = tempfile::NamedTempFile::new().expect("Failed to create temporary file");
-    commit_message.split("\n").for_each(|line| {
+    commit_message.split('\n').for_each(|line| {
         let _ = writeln!(commit_file, "{}", line);
     });
 
@@ -387,6 +426,7 @@ async fn main() {
 
 use anyhow::Result;
 
+#[allow(clippy::needless_borrow)]
 async fn stream_multipart_commit_message(
     client: &Client,
     initial_prompt: &str,
