@@ -4,6 +4,14 @@ _Note: HappyCommit works but is still early. Check any generated commit message 
 
 HappyCommit is a delightful tool that harnesses the power of OpenAI's GPT-3.5 Turbo language model to generate meaningful and descriptive Git commit messages for you. With HappyCommit, you can now focus on writing great code while we take care of crafting the perfect commit messages.
 
+## Demo 1: Introducing HappyCommit
+
+https://user-images.githubusercontent.com/13596692/232681973-0738f7dd-4755-4466-bbef-797cdf8440d4.mov
+
+## Demo 2: Long diffs
+
+https://user-images.githubusercontent.com/13596692/232682150-ce2dfdb7-5f3c-489c-9cbf-8b53a17a0ea9.mov
+
 ## Prerequisites
 
 - Make sure you have [Homebrew](https://brew.sh/) installed on your macOS system.
@@ -14,7 +22,7 @@ HappyCommit is a delightful tool that harnesses the power of OpenAI's GPT-3.5 Tu
 
    ```bash
    brew tap jackbackes/git-commit-gpt
-   brew install jackbackes/homebrew-git-commit-gpt/git-commit-gpt.rb
+   brew install jackbackes/homebrew-git-commit-gpt/git-commit-gpt
    ```
 
 2. After the installation, let's add your OpenAI API key to the configuration file. Simply run the following command and enter your API key when prompted:
