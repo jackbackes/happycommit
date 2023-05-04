@@ -463,14 +463,13 @@ async fn stream_multipart_commit_message(
 ) -> Result<Vec<String>, anyhow::Error> {
     let tokenizer = cl100k_base().unwrap();
     let max_tokens = 3500;
-    let tokenized_iter = tokenizer.split_by_token_with_special_tokens(code_changes);
+    let tokenized_iter = tokenizer.split_by_token_iter(code_changes, true);
 
     let overlap = 200;
     let mut split_code_changes = Vec::new();
 
     let initial_prompt_tokens = tokenizer
-        .split_by_token_with_special_tokens(initial_prompt)
-        .collect::<Result<Vec<String>, _>>()?
+        .split_by_token(initial_prompt, true)?
         .len();
 
     let max_code_tokens = max_tokens - initial_prompt_tokens;
