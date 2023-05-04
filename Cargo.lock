@@ -1214,8 +1214,8 @@ dependencies = [
 
 [[package]]
 name = "tiktoken-rs"
-version = "0.4.1"
-source = "git+https://github.com/zurawiki/tiktoken-rs#6c0e061b4db6df902989104656e137714b62ddb0"
+version = "0.4.2"
+source = "git+https://github.com/zurawiki/tiktoken-rs#4afc584e1cf4d64a49ee26bb3773078cf34926d5"
 dependencies = [
  "anyhow",
  "async-openai",

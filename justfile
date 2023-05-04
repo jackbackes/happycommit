@@ -16,3 +16,19 @@ install:
 
 # Run both 'format' and 'clippy' tasks
 fix: format clippy
+
+# Install dependencies
+deps:
+    @cargo install cargo-bump
+
+# Bump the patch
+bump-patch: deps
+    @cargo bump patch --git-tag
+
+# Bump the minor
+bump-minor: deps
+    @cargo bump minor --git-tag
+
+# Bump the major
+bump-major: deps
+    @cargo bump major --git-tag
